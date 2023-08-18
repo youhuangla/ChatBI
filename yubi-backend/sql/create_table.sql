@@ -24,7 +24,7 @@ create table if not exists user
 ) comment '用户' collate = utf8mb4_unicode_ci;
 
 -- 图表信息表chart
-create table if not exists charts
+create table if not exists chart
 (
     id					bigint auto_increment comment 'id' primary key,
     goal				text null comment '分析目标',
