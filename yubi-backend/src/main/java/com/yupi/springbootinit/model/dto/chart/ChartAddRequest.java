@@ -1,8 +1,12 @@
 package com.yupi.springbootinit.model.dto.chart;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,22 +16,24 @@ import java.util.List;
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @Data
-public class PostAddRequest implements Serializable {
+public class ChartAddRequest implements Serializable {
+
+// 只保留要让前端传递的字段的参数，其他的字段都去掉
+    /**
+     * 分析目标
+     */
+    private String goal;
 
     /**
-     * 标题
+     * 图表数据
      */
-    private String title;
+    private String chartData;
 
     /**
-     * 内容
+     * 图表类型
      */
-    private String content;
+    private String charType;
 
-    /**
-     * 标签列表
-     */
-    private List<String> tags;
 
     private static final long serialVersionUID = 1L;
 }

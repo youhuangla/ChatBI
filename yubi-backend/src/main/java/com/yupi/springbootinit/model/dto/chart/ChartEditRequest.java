@@ -1,8 +1,12 @@
 package com.yupi.springbootinit.model.dto.chart;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,27 +16,31 @@ import java.util.List;
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @Data
-public class PostEditRequest implements Serializable {
-
+public class ChartEditRequest implements Serializable {
     /**
      * id
      */
     private Long id;
 
     /**
-     * 标题
+     * 分析目标
      */
-    private String title;
+    private String goal;
 
     /**
-     * 内容
+     * 图表数据
      */
-    private String content;
+    private String chartData;
 
     /**
-     * 标签列表
+     * 图表类型
      */
-    private List<String> tags;
+    private String charType;
+
+    /**
+     * 生成的图表数据
+     */
+    private String genChart;
 
     private static final long serialVersionUID = 1L;
 }

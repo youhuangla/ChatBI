@@ -12,6 +12,20 @@ import lombok.Data;
  */
 @Data
 public class PostAddRequest implements Serializable {
+    /**
+     * 分析目标
+     */
+    private String goal;
+
+    /**
+     * 图表数据
+     */
+    private String chartData;
+
+    /**
+     * 图表类型
+     */
+    private String charType;
 
     /**
      * 标题
