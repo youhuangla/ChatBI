@@ -17,6 +17,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ExcelUtils {
+    /**
+     * excel to csv
+     * @param multipartFile
+     * @return
+     */
     public static String excelToCsv(MultipartFile multipartFile) {
         File file = null;
         try {
@@ -34,17 +39,18 @@ public class ExcelUtils {
             return "";
         }
         // 转换为 csv
+        StringBuilder stringBuilder = new StringBuilder();
         // 读取表头
         LinkedHashMap<Integer, String> headerMap = (LinkedHashMap) list.get(0);
-        List<String> headerList = headerMap.values().stream().filter(header -> ObjectUtils.isNotEmpty(header)).collect(Collectors.toList());
-        System.out.println(StringUtils.join(headerList, ","));
+        List<String> headerList = headerMap.values().stream().filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
+        stringBuilder.append(StringUtils.join(headerList, ",")).append("\n");
         for (int i = 1; i < list.size(); i++) {
             LinkedHashMap<Integer, String> dataMap = (LinkedHashMap) list.get(i);
             List<String> dataList = dataMap.values().stream().filter(header -> ObjectUtils.isNotEmpty(header)).collect(Collectors.toList());
-            System.out.println(StringUtils.join(dataList, ","));
+            stringBuilder.append(StringUtils.join(dataList, ",")).append("\n");
         }
-        System.out.println(list);
-        return "";
+        //System.out.println(stringBuilder);
+        return stringBuilder.toString();
     }
     public static void main(String[] args) {
         excelToCsv(null);
