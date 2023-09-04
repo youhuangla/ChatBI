@@ -240,7 +240,7 @@ public class ChartController {
         userInput.append("分析目标：").append(goal).append("\n");
         // 压缩后的数据
         String result =  ExcelUtils.excelToCsv(multipartFile);
-        userInput.append("分析目标：").append(goal).append("\n");
+        userInput.append("数据：").append(result).append("\n");
         return ResultUtils.success(userInput.toString());
 /*
         // 读取到用户上传的 excel 文件，进行一个处理
