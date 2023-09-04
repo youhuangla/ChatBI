@@ -20,6 +20,7 @@ import com.yupi.springbootinit.model.entity.User;
 import com.yupi.springbootinit.model.enums.FileUploadBizEnum;
 import com.yupi.springbootinit.service.ChartService;
 import com.yupi.springbootinit.service.UserService;
+import com.yupi.springbootinit.utils.ExcelUtils;
 import com.yupi.springbootinit.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -218,7 +219,7 @@ public class ChartController {
      * 智能分析
      *
      * @param multipartFile
-     * @param uploadFileRequest
+     * @param genChartByAiRequest
      * @param request
      * @return
      */
@@ -232,6 +233,10 @@ public class ChartController {
         ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
         ThrowUtils.throwIf(StringUtils.isNotBlank(name) && name.length() > 100, ErrorCode.PARAMS_ERROR, "目标过长");
 
+        String result =  ExcelUtils.excelToCsv(multipartFile);
+        return ResultUtils.success(result);
+/*
+        // 读取到用户上传的 excel 文件，进行一个处理
         User loginUser = userService.getLoginUser(request);
         // 文件目录：根据业务、用户来划分
         String uuid = RandomStringUtils.randomAlphanumeric(8);
@@ -252,6 +257,8 @@ public class ChartController {
                 }
             }
         }
+
+*/
     }
 
     /**
