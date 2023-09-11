@@ -14,7 +14,7 @@ class AiManagerTest {
 
     @Test
     void doChat() {
-        String answer = aiManager.doChat("邓紫棋");
+        String answer = aiManager.doChat("你是？");
         System.out.println(answer);
     }
 }

@@ -1,6 +1,6 @@
 package com.yupi.springbootinit.manager;
 
-import com.yupi.springbootinit.api.Api2dServiceImpl;
+import com.yupi.springbootinit.service.impl.Api2dDataAnalystServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -9,8 +9,7 @@ import javax.annotation.Resource;
 public class AiManager {
 
     @Resource
-    private Api2dServiceImpl api2dService;
-
+    private Api2dDataAnalystServiceImpl api2dService;
     /**
      * 获取AI对话内容
      * @param query
