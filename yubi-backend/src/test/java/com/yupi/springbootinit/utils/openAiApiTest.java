@@ -1,14 +1,13 @@
-package com.yupi.springbootinit.api;
+package com.yupi.springbootinit.utils;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
-import cn.hutool.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class api2dApi {
+public class openAiApiTest {
     public static void main(String[] args) {
         String url = "https://oa.api2d.net/v1/chat/completions";
 
@@ -22,10 +21,10 @@ public class api2dApi {
         bodyMap.put("safe_mode", false);
 
         String jsonBody = JSONUtil.toJsonStr(bodyMap);
-        String api2d_api_key = System.getenv("API2D_API_KEY");
+
         // 发送请求
         HttpResponse response = HttpRequest.post(url)
-                .header("Authorization", "Bearer " + api2d_api_key)  // 请替换为您的真实token
+                .header("Authorization", "Bearer fk......")  // 请替换为您的真实token
                 .header("User-Agent", "Apifox/1.0.0 (https://apifox.com)")
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
@@ -33,12 +32,7 @@ public class api2dApi {
                 .execute();
 
         if(response.isOk()) {
-            //System.out.println(response.body());
-            String responseBody = response.body();
-            // 下面的部分是新添加的代码，用于解析返回的 JSON 数据并提取 content 字段的值
-            JSONObject jsonObject = JSONUtil.parseObj(responseBody);
-            String content = jsonObject.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getStr("content");
-            System.out.println("Extracted content: " + content);  // 打印提取的 content
+            System.out.println(response.body());
         } else {
             System.out.println("请求失败，状态码：" + response.getStatus());
         }
