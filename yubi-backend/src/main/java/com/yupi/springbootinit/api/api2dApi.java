@@ -3,6 +3,7 @@ package com.yupi.springbootinit.api;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
+import cn.hutool.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,12 @@ public class api2dApi {
                 .execute();
 
         if(response.isOk()) {
-            System.out.println(response.body());
+            //System.out.println(response.body());
+            String responseBody = response.body();
+            // 下面的部分是新添加的代码，用于解析返回的 JSON 数据并提取 content 字段的值
+            JSONObject jsonObject = JSONUtil.parseObj(responseBody);
+            String content = jsonObject.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getStr("content");
+            System.out.println("Extracted content: " + content);  // 打印提取的 content
         } else {
             System.out.println("请求失败，状态码：" + response.getStatus());
         }
