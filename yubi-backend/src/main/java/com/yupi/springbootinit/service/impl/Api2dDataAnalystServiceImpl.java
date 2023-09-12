@@ -24,6 +24,7 @@ public class Api2dDataAnalystServiceImpl implements ApiService {
         // 创建请求体
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("model", "gpt-3.5-turbo");
+        bodyMap.put("temperature", 0); // 直接在此固定temperature的值
 
         Map<String, String> systemMessage = new HashMap<>();
         systemMessage.put("role", "system");
@@ -42,6 +43,7 @@ public class Api2dDataAnalystServiceImpl implements ApiService {
         userMessage.put("role", "user");
         //userMessage.put("content", "分析需求：\n" + analysisRequirement + "\n原始数据：\n" + csvData);
         userMessage.put("content", analysisRequirement);
+
         bodyMap.put("messages", new Map[]{systemMessage, userMessage});
         bodyMap.put("safe_mode", false);
 

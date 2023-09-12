@@ -237,7 +237,7 @@ public class ChartController {
         // 校验
         ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
         ThrowUtils.throwIf(StringUtils.isNotBlank(name) && name.length() > 100, ErrorCode.PARAMS_ERROR, "目标过长");
-        User loginUser = userService.getLoginUser(request); // 见“用户中心”项目
+        User loginUser = userService.getLoginUser(request); // 见“用户中心”项目，获取登录用户
 /*
         final String prompt = "你是一个数据分析师和前端开发专家，接下来我会按照以下固定格式给你提供内容：\n" +
                 "分析需求：\n" +
