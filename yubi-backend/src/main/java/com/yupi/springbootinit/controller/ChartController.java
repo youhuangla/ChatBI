@@ -272,7 +272,7 @@ public class ChartController {
         //拼接分析目标
         String userGoal = goal;
         if (StringUtils.isNotBlank(chartType)) {
-            userGoal += "请使用" + chartType;
+            userGoal += ",请使用" + chartType;
         }
         userInput.append(userGoal).append("\n");
         userInput.append("原始数据：").append("\n");
