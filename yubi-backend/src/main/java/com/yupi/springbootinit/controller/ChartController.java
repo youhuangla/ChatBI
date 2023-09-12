@@ -275,13 +275,14 @@ public class ChartController {
         userInput.append(csvData).append("\n");
 
         String result = aiManager.doChat(userInput.toString());
+        System.out.println("ChatGPT: ");
         System.out.println(result);
         String[] splits = result.split("【【【【【");
         if (splits.length < 3) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "AI 生成错误");
         }
-        String genChart = splits[0];
-        String genResult = splits[1];
+        String genChart = splits[1];
+        String genResult = splits[2];
         BiResponse biResponse = new BiResponse();
         biResponse.setGenChart(genChart);
         biResponse.setGenResult(genResult);

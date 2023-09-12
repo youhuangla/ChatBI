@@ -13,11 +13,13 @@ import java.util.Map;
 @Service
 public class Api2dDataAnalystServiceImpl implements ApiService {
     /**
-     * TODO: 实现一个更泛用的Api2dServiceImpl方法，可以根据不同的参数调用不同的API
+     * TODO: 实现一个更泛用的Api2dServiceImpl方法，可以使用不同的API
      */
     private static final String URL = "https://oa.api2d.net/v1/chat/completions";
 
     public String getContentFromApi(String analysisRequirement/*, String csvData*/) {
+        System.out.println("User: ");
+        System.out.println(analysisRequirement);
         String csvData = "csvData";
         // 创建请求体
         Map<String, Object> bodyMap = new HashMap<>();
@@ -38,8 +40,8 @@ public class Api2dDataAnalystServiceImpl implements ApiService {
 
         Map<String, String> userMessage = new HashMap<>();
         userMessage.put("role", "user");
-        userMessage.put("content", "分析需求：\n" + analysisRequirement + "\n原始数据：\n" + csvData);
-
+        //userMessage.put("content", "分析需求：\n" + analysisRequirement + "\n原始数据：\n" + csvData);
+        userMessage.put("content", analysisRequirement);
         bodyMap.put("messages", new Map[]{systemMessage, userMessage});
         bodyMap.put("safe_mode", false);
 
