@@ -23,7 +23,7 @@ const normFile = (e: any) => {
 };
 
 const onFinish = (values: any) => {
-  console.log('表单内容', values);
+  // TODO: 对接后端，上传数据
 };
 
 const Login: React.FC = () => {
