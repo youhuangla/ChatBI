@@ -14,7 +14,6 @@ export default [
       { path: '/admin/sub-page', component: './Admin' },
     ],
   },
-  { icon: 'table', path: '/list', component: './TableList', name: '表格页' },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
 ];

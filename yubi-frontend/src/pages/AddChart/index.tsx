@@ -27,9 +27,6 @@ const onFinish = (values: any) => {
 };
 
 const Login: React.FC = () => {
-  const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
-
   useEffect(() => {
     listChartByPageUsingPOST({}).then((res) => {
       console.error(res);
