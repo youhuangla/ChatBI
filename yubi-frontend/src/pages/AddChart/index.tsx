@@ -1,11 +1,16 @@
 import { listChartByPageUsingPOST } from '@/services/yubi/chartController';
-import { useModel } from '@umijs/max';
 
 import { UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { Button, Form, Select, Space, Upload } from 'antd';
+import { Button, Form, message, Select, Space, Upload } from 'antd';
+import { genChartByAiUsingPOST } from '../../services/yubi/chartController';
+
+/**
+ * 添加图表页面
+ * @constructor
+ */
 
 const { Option } = Select;
 
@@ -22,28 +27,40 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const onFinish = (values: any) => {
-  // TODO: 对接后端，上传数据
-};
-
-const Login: React.FC = () => {
+const AddChart: React.FC = () => {
   useEffect(() => {
     listChartByPageUsingPOST({}).then((res) => {
       console.error(res);
     });
   });
 
+  const onFinish = async (values: any) => {
+    console.log(values.file);
+    // TODO: 对接后端，上传数据
+    const params = {
+      ...values,
+      file: undefined,
+    };
+    try {
+      const res = await genChartByAiUsingPOST(params, {}, values.file.file.originFileObj);
+      console.log(res);
+      message.success('分析成功');
+    } catch (e: any) {
+      message.error('分析失败' + e.message);
+    }
+  };
+
   return (
     <div className={'add-chart'}>
       <Form name="addChart" {...formItemLayout} onFinish={onFinish} initialValues={{}}>
         <Form.Item
-          name="rate"
+          name="goal"
           label="分析目标"
           rules={[{ required: true, message: '请输入分析目标' }]}
         >
           <TextArea placeholder="请输入你的分析需求，比如：分析网站用户的增长情况" />
         </Form.Item>
-        <Form.Item name="name " label="图表名称">
+        <Form.Item name="name" label="图表名称">
           <TextArea placeholder="请输入图表名称" />
         </Form.Item>
         <Form.Item name="chartType" label="图表类型">
@@ -76,4 +93,4 @@ const Login: React.FC = () => {
     </div>
   );
 };
-export default Login;
+export default AddChart;
