@@ -1,41 +1,53 @@
-import { listChartByPageUsingPOST } from '@/services/yubi/chartController';
-
 import { UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Button, Form, message, Select, Space, Upload } from 'antd';
 import { genChartByAiUsingPOST } from '../../services/yubi/chartController';
+
+import ReactECharts from 'echarts-for-react';
 
 /**
  * 添加图表页面
  * @constructor
  */
 
-const { Option } = Select;
-
-const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
-};
-
-const normFile = (e: any) => {
-  console.log('Upload event:', e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
-
 const AddChart: React.FC = () => {
-  useEffect(() => {
-    listChartByPageUsingPOST({}).then((res) => {
-      console.error(res);
-    });
-  });
+  const options = {
+    grid: { top: 8, right: 8, bottom: 24, left: 36 },
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    },
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        type: 'line',
+        smooth: true,
+      },
+    ],
+    tooltip: {
+      trigger: 'axis',
+    },
+  };
 
+  const [chart, setChart] = useState<API.BiResponse>();
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [option, setOption] = useState<any>();
+  /**
+   *  表单提交
+   * @param values
+   */
   const onFinish = async (values: any) => {
-    console.log(values.file);
+    // console.log(values.file);
+    // 避免重复提交
+    if (submitting) {
+      return;
+    }
+    setSubmitting(true);
     // TODO: 对接后端，上传数据
     const params = {
       ...values,
@@ -44,15 +56,28 @@ const AddChart: React.FC = () => {
     try {
       const res = await genChartByAiUsingPOST(params, {}, values.file.file.originFileObj);
       console.log(res);
-      message.success('分析成功');
+      if (!res?.data) {
+        message.error('分析失败');
+      } else {
+        message.success('分析成功');
+        const chartOption = JSON.parse(res.data.genChart ?? '');
+        if (!chartOption) {
+          throw new Error('图表代码解析错误');
+        } else {
+          setChart(res.data);
+          setOption(chartOption);
+        }
+        setChart(res.data);
+      }
     } catch (e: any) {
       message.error('分析失败' + e.message);
     }
+    setSubmitting(false);
   };
 
   return (
     <div className={'add-chart'}>
-      <Form name="addChart" {...formItemLayout} onFinish={onFinish} initialValues={{}}>
+      <Form name="addChart" onFinish={onFinish} initialValues={{}}>
         <Form.Item
           name="goal"
           label="分析目标"
@@ -83,13 +108,19 @@ const AddChart: React.FC = () => {
         </Form.Item>
         <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
           <Space>
-            <Button type="primary" htmlType="submit">
-              Submit
+            <Button type="primary" htmlType="submit" loading={submitting} disabled={submitting}>
+              智能分析
             </Button>
-            <Button htmlType="reset">reset</Button>
+            <Button htmlType="reset">重置</Button>
           </Space>
         </Form.Item>
       </Form>
+      <div>分析结论：{chart?.genResult}</div>
+      {/*<div>生成图表：<ReactECharts option={options} />;</div>*/}
+      <div>
+        生成图表：
+        {option && <ReactECharts option={option}/>}
+      </div>
     </div>
   );
 };
