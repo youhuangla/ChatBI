@@ -4,6 +4,7 @@ export default [
   // 加入新的路由
   { path: '/', redirect: './add_chart' },
   { path: '/add_chart', name: "智能分析", icon: 'barChart', component: './AddChart' },
+  { path: '/my_chart', name: "我的图表", icon: 'pieChart', component: './MyChart' },
   {
     path: '/admin',
     icon: 'crown',
