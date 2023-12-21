@@ -12,18 +12,16 @@ import java.util.List;
 /**
  * 创建请求
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * 
  */
 @Data
 public class ChartAddRequest implements Serializable {
 
-// 只保留要让前端传递的字段的参数，其他的字段都去掉
+    // 只保留要让前端传递的字段的参数，其他的字段都去掉
     /**
      * 名称
      */
     private String name;
-
 
     /**
      * 分析目标
@@ -39,7 +37,6 @@ public class ChartAddRequest implements Serializable {
      * 图表类型
      */
     private String charType;
-
 
     private static final long serialVersionUID = 1L;
 }

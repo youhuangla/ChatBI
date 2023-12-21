@@ -39,8 +39,7 @@ import java.io.File;
 /**
  * 帖子接口
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * 
  */
 @RestController
 @RequestMapping("/chart")
@@ -192,7 +191,6 @@ public class ChartController {
         return ResultUtils.success(chartPage);
     }
 
-
     /**
      * 编辑（用户）
      *
@@ -230,8 +228,8 @@ public class ChartController {
      */
     @PostMapping("/gen")
     public BaseResponse<BiResponse> genChartByAi(@RequestPart("file") MultipartFile multipartFile,
-                                             GenChartByAiRequest genChartByAiRequest, HttpServletRequest request) {
-        //System.out.println("GenChartByAiRequest: " + genChartByAiRequest);
+            GenChartByAiRequest genChartByAiRequest, HttpServletRequest request) {
+        // System.out.println("GenChartByAiRequest: " + genChartByAiRequest);
         String name = genChartByAiRequest.getName();
         String goal = genChartByAiRequest.getGoal();
         String chartType = genChartByAiRequest.getChartType();
@@ -239,38 +237,38 @@ public class ChartController {
         ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
         ThrowUtils.throwIf(StringUtils.isNotBlank(name) && name.length() > 100, ErrorCode.PARAMS_ERROR, "目标过长");
         User loginUser = userService.getLoginUser(request); // 见“用户中心”项目，获取登录用户
-/*
-        final String prompt = "你是一个数据分析师和前端开发专家，接下来我会按照以下固定格式给你提供内容：\n" +
-                "分析需求：\n" +
-                "{数据分析的需求或者目标}\n" +
-                "原始数据：\n" +
-                "{csv格式的原始数据，用，作为分隔符}\n" +
-                "请根据这两部分内容，按照以下指定格式生成内容（此外不要输出任何多余的开头、结尾、注释）\n" +
-                "【【【【【\n" +
-                "{前端Echarts V5的option配置对象js代码，合理地将数据进行可视化，不要生成任何多余的内容，比如注释}\n" +
-                "【【【【I\n" +
-                "{明确的数据分析结论、越详细越好，不要生成多余的注释}";
-
- */
-/*
-你是一个数据分析师，接下来我会给你我的分析目标和原始数据，请告诉我分析结论。
-
-分析目标：分析网站用户
-
-数据：日期,用户数
-
-1号,10
-
-2号,20
-
-3号,30
-
-//构造用户输入
- */
+        /*
+         * final String prompt = "你是一个数据分析师和前端开发专家，接下来我会按照以下固定格式给你提供内容：\n" +
+         * "分析需求：\n" +
+         * "{数据分析的需求或者目标}\n" +
+         * "原始数据：\n" +
+         * "{csv格式的原始数据，用，作为分隔符}\n" +
+         * "请根据这两部分内容，按照以下指定格式生成内容（此外不要输出任何多余的开头、结尾、注释）\n" +
+         * "【【【【【\n" +
+         * "{前端Echarts V5的option配置对象js代码，合理地将数据进行可视化，不要生成任何多余的内容，比如注释}\n" +
+         * "【【【【I\n" +
+         * "{明确的数据分析结论、越详细越好，不要生成多余的注释}";
+         * 
+         */
+        /*
+         * 你是一个数据分析师，接下来我会给你我的分析目标和原始数据，请告诉我分析结论。
+         * 
+         * 分析目标：分析网站用户
+         * 
+         * 数据：日期,用户数
+         * 
+         * 1号,10
+         * 
+         * 2号,20
+         * 
+         * 3号,30
+         * 
+         * //构造用户输入
+         */
         // 构造用户输入
         StringBuilder userInput = new StringBuilder();
         userInput.append("分析需求：").append("\n");
-        //拼接分析目标
+        // 拼接分析目标
         String userGoal = goal;
         if (StringUtils.isNotBlank(chartType)) {
             userGoal += ",请使用" + chartType;
@@ -278,7 +276,7 @@ public class ChartController {
         userInput.append(userGoal).append("\n");
         userInput.append("原始数据：").append("\n");
         // 压缩后的数据
-        String csvData =  ExcelUtils.excelToCsv(multipartFile);
+        String csvData = ExcelUtils.excelToCsv(multipartFile);
         userInput.append(csvData).append("\n");
 
         String result = aiManager.doChat(userInput.toString());
@@ -307,30 +305,30 @@ public class ChartController {
         biResponse.setCharId(chart.getId());
 
         return ResultUtils.success(biResponse);
-/*
-        // 读取到用户上传的 excel 文件，进行一个处理
-        User loginUser = userService.getLoginUser(request);
-        // 文件目录：根据业务、用户来划分
-        String uuid = RandomStringUtils.randomAlphanumeric(8);
-        String filename = uuid + "-" + multipartFile.getOriginalFilename();
-        File file = null;
-        try {
-            // 返回可访问地址
-            return ResultUtils.success("");
-        } catch (Exception e) {
-            //log.error("file upload error, filepath = " + filepath, e);
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");
-        } finally {
-            if (file != null) {
-                // 删除临时文件
-                boolean delete = file.delete();
-                if (!delete) {
-                    //log.error("file delete error, filepath = {}", filepath);
-                }
-            }
-        }
-
-*/
+        /*
+         * // 读取到用户上传的 excel 文件，进行一个处理
+         * User loginUser = userService.getLoginUser(request);
+         * // 文件目录：根据业务、用户来划分
+         * String uuid = RandomStringUtils.randomAlphanumeric(8);
+         * String filename = uuid + "-" + multipartFile.getOriginalFilename();
+         * File file = null;
+         * try {
+         * // 返回可访问地址
+         * return ResultUtils.success("");
+         * } catch (Exception e) {
+         * //log.error("file upload error, filepath = " + filepath, e);
+         * throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");
+         * } finally {
+         * if (file != null) {
+         * // 删除临时文件
+         * boolean delete = file.delete();
+         * if (!delete) {
+         * //log.error("file delete error, filepath = {}", filepath);
+         * }
+         * }
+         * }
+         * 
+         */
     }
 
     /**

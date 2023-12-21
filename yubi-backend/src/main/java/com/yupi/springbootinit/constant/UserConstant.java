@@ -3,8 +3,7 @@ package com.yupi.springbootinit.constant;
 /**
  * 用户常量
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * 
  */
 public interface UserConstant {
 
@@ -13,7 +12,7 @@ public interface UserConstant {
      */
     String USER_LOGIN_STATE = "user_login";
 
-    //  region 权限
+    // region 权限
 
     /**
      * 默认角色

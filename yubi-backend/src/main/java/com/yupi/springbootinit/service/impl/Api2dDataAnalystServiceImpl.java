@@ -65,5 +65,6 @@ public class Api2dDataAnalystServiceImpl implements ApiService {
         } else {
             return "请求失败，状态码：" + response.getStatus();
         }
+
     }
 }

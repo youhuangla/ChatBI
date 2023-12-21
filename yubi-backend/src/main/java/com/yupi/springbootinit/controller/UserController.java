@@ -40,8 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 用户接口
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * 
  */
 @RestController
 @RequestMapping("/user")
@@ -85,7 +84,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+    public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest,
+            HttpServletRequest request) {
         if (userLoginRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -97,8 +97,6 @@ public class UserController {
         LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
         return ResultUtils.success(loginUserVO);
     }
-
-
 
     /**
      * 用户注销
