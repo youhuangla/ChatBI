@@ -1,6 +1,6 @@
 import { UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Card, Col, Divider, Form, message, Row, Select, Space, Spin, Upload } from 'antd';
 import { genChartByAiUsingPOST } from '../../services/yubi/chartController';
