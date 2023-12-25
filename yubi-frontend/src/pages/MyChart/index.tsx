@@ -1,7 +1,7 @@
 import { listMyChartByPageUsingPOST } from '@/services/yubi/chartController';
-import { message } from 'antd';
+import { Avatar, List, message } from 'antd';
+import ReactECharts from 'echarts-for-react';
 import React, { useEffect, useState } from 'react';
-
 /**
  * 我的图表页面
  * @constructor
@@ -35,9 +35,38 @@ const MyChartPage: React.FC = () => {
   }, [searchParams]);
   return (
     <div className="my-chart-page">
-      数据列表：
-      {JSON.stringify(chartList)}
-      <br />
+      <List
+        itemLayout="vertical"
+        size="large"
+        pagination={{
+          onChange: (page) => {
+            console.log(page);
+          },
+          pageSize: searchParams.pageSize,
+        }}
+        dataSource={chartList}
+        footer={
+          <div>
+            <b>ant design</b> footer part
+          </div>
+        }
+        renderItem={(item) => (
+          <List.Item
+            key={item.id}
+            actions={[]}
+            extra={<ReactECharts option={item.genChart && JSON.parse(item.genChart)} />}
+          >
+            <List.Item.Meta
+              avatar={
+                <Avatar src={'https://xsgames.co/randomusers/avatar.php?g=pixel&amp;key=0'} />
+              }
+              title={item.name}
+              description={item.charType ? '图表类型：' + item.charType : undefined}
+            />
+            {'分析目标：' + item.goal}
+          </List.Item>
+        )}
+      />
       总数：{total}
     </div>
   );
