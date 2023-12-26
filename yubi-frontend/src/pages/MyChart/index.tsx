@@ -16,8 +16,10 @@ const MyChartPage: React.FC = () => {
   const [searchParams, setSearchParams] = useState<API.ChartQueryRequest>({ ...initSearchParams }); // 查询参数
   const [chartList, setChartList] = useState<API.Chart[]>(); // 图表列表
   const [total, setTotal] = useState<number>(0); // 分页总数
+  const [loading, setLoading] = useState<boolean>(true); // 加载状态
 
   const loadData = async () => {
+    setLoading(true);
     try {
       const res = await listMyChartByPageUsingPOST(searchParams);
       if (res.data) {
@@ -29,6 +31,7 @@ const MyChartPage: React.FC = () => {
     } catch (e: any) {
       message.error('获取我的图表失败' + e.message);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -45,6 +48,7 @@ const MyChartPage: React.FC = () => {
           },
           pageSize: searchParams.pageSize,
         }}
+        loading={loading}
         dataSource={chartList}
         footer={
           <div>
