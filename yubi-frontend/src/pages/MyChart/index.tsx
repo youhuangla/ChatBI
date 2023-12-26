@@ -1,7 +1,8 @@
 import { listMyChartByPageUsingPOST } from '@/services/yubi/chartController';
 import { Avatar, List, message } from 'antd';
-import ReactECharts from 'echarts-for-react';
 import React, { useEffect, useState } from 'react';
+
+import ReactECharts from 'echarts-for-react';
 /**
  * 我的图表页面
  * @constructor
@@ -51,11 +52,7 @@ const MyChartPage: React.FC = () => {
           </div>
         }
         renderItem={(item) => (
-          <List.Item
-            key={item.id}
-            actions={[]}
-            extra={<ReactECharts option={item.genChart && JSON.parse(item.genChart)} />}
-          >
+          <List.Item key={item.id}>
             <List.Item.Meta
               avatar={
                 <Avatar src={'https://xsgames.co/randomusers/avatar.php?g=pixel&amp;key=0'} />
@@ -64,6 +61,7 @@ const MyChartPage: React.FC = () => {
               description={item.charType ? '图表类型：' + item.charType : undefined}
             />
             {'分析目标：' + item.goal}
+            <ReactECharts option={item.genChart && JSON.parse(item.genChart)} />
           </List.Item>
         )}
       />
