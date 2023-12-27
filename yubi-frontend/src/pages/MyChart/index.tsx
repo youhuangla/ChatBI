@@ -1,5 +1,5 @@
 import { listMyChartByPageUsingPOST } from '@/services/yubi/chartController';
-import { Avatar, List, message } from 'antd';
+import { Avatar, Card, List, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { useModel } from '@@/exports';
@@ -15,7 +15,7 @@ const MyChartPage: React.FC = () => {
   };
 
   const [searchParams, setSearchParams] = useState<API.ChartQueryRequest>({ ...initSearchParams }); // 查询参数
-  const { initialState} = useModel('@@initialState'); // 当前用户信息
+  const { initialState } = useModel('@@initialState'); // 当前用户信息
   const { currentUser } = initialState ?? {}; // 在 User/login 将 currentUser 设置到了全局变量中
   const [chartList, setChartList] = useState<API.Chart[]>(); // 图表列表
   const [total, setTotal] = useState<number>(0); // 分页总数
@@ -60,13 +60,16 @@ const MyChartPage: React.FC = () => {
         }
         renderItem={(item) => (
           <List.Item key={item.id}>
-            <List.Item.Meta
-              avatar={<Avatar src={currentUser && currentUser.userAvatar} />}
-              title={item.name}
-              description={item.charType ? '图表类型：' + item.charType : undefined}
-            />
-            {'分析目标：' + item.goal}
-            <ReactECharts option={item.genChart && JSON.parse(item.genChart)} />
+            <Card>
+              <List.Item.Meta
+                avatar={<Avatar src={currentUser && currentUser.userAvatar} />}
+                title={item.name}
+                description={item.charType ? '图表类型：' + item.charType : undefined}
+              />
+              {'分析目标：' + item.goal}
+              <div style={{ marginButtom: 16 }} />
+              <ReactECharts option={item.genChart && JSON.parse(item.genChart)} />
+            </Card>
           </List.Item>
         )}
       />
