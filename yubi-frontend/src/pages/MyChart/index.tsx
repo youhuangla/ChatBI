@@ -2,6 +2,7 @@ import { listMyChartByPageUsingPOST } from '@/services/yubi/chartController';
 import { Avatar, List, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
+import { useModel } from '@@/exports';
 import ReactECharts from 'echarts-for-react';
 /**
  * 我的图表页面
@@ -14,6 +15,8 @@ const MyChartPage: React.FC = () => {
   };
 
   const [searchParams, setSearchParams] = useState<API.ChartQueryRequest>({ ...initSearchParams }); // 查询参数
+  const { initialState} = useModel('@@initialState'); // 当前用户信息
+  const { currentUser } = initialState ?? {}; // 在 User/login 将 currentUser 设置到了全局变量中
   const [chartList, setChartList] = useState<API.Chart[]>(); // 图表列表
   const [total, setTotal] = useState<number>(0); // 分页总数
   const [loading, setLoading] = useState<boolean>(true); // 加载状态
@@ -58,9 +61,7 @@ const MyChartPage: React.FC = () => {
         renderItem={(item) => (
           <List.Item key={item.id}>
             <List.Item.Meta
-              avatar={
-                <Avatar src={'https://xsgames.co/randomusers/avatar.php?g=pixel&amp;key=0'} />
-              }
+              avatar={<Avatar src={currentUser && currentUser.userAvatar} />}
               title={item.name}
               description={item.charType ? '图表类型：' + item.charType : undefined}
             />
