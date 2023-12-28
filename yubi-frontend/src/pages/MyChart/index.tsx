@@ -28,6 +28,13 @@ const MyChartPage: React.FC = () => {
       if (res.data) {
         setChartList(res.data.records ?? []);
         setTotal(res.data.total ?? 0);
+        if (res.data.records) {
+          res.data.records.forEach((data) => {
+            const chartOption = JSON.parse(data.genChart ?? '{}');
+            chartOption.title = undefined;
+            data.genChart = JSON.stringify(chartOption);
+          });
+        }
       } else {
         message.error('获取我的图表失败');
       }
@@ -43,8 +50,7 @@ const MyChartPage: React.FC = () => {
   return (
     <div className="my-chart-page">
       <List
-        itemLayout="vertical"
-        size="large"
+        grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
         pagination={{
           onChange: (page) => {
             console.log(page);
@@ -53,11 +59,6 @@ const MyChartPage: React.FC = () => {
         }}
         loading={loading}
         dataSource={chartList}
-        footer={
-          <div>
-            <b>ant design</b> footer part
-          </div>
-        }
         renderItem={(item) => (
           <List.Item key={item.id}>
             <Card>
@@ -66,8 +67,9 @@ const MyChartPage: React.FC = () => {
                 title={item.name}
                 description={item.charType ? '图表类型：' + item.charType : undefined}
               />
-              {'分析目标：' + item.goal}
-              <div style={{ marginButtom: 16 }} />
+              <div style={{ marginBottom: 16 }} />
+              <p>{'分析目标：' + item.goal}</p>
+              <div style={{ marginBottom: 16 }} />
               <ReactECharts option={item.genChart && JSON.parse(item.genChart)} />
             </Card>
           </List.Item>
