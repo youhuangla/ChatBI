@@ -11,7 +11,8 @@ import ReactECharts from 'echarts-for-react';
 
 const MyChartPage: React.FC = () => {
   const initSearchParams = {
-    pageSize: 12,
+    current: 1,
+    pageSize: 2,
   };
 
   const [searchParams, setSearchParams] = useState<API.ChartQueryRequest>({ ...initSearchParams }); // 查询参数
@@ -28,6 +29,7 @@ const MyChartPage: React.FC = () => {
       if (res.data) {
         setChartList(res.data.records ?? []);
         setTotal(res.data.total ?? 0);
+        //隐藏图表的title
         if (res.data.records) {
           res.data.records.forEach((data) => {
             const chartOption = JSON.parse(data.genChart ?? '{}');
@@ -47,15 +49,22 @@ const MyChartPage: React.FC = () => {
   useEffect(() => {
     loadData();
   }, [searchParams]);
+
   return (
     <div className="my-chart-page">
       <List
         grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
         pagination={{
-          onChange: (page) => {
-            console.log(page);
+          onChange: (page, pageSize) => {
+            setSearchParams({
+              ...searchParams,
+              current: page,
+              pageSize,
+            });
           },
+          current: searchParams.current,
           pageSize: searchParams.pageSize,
+          total: total,
         }}
         loading={loading}
         dataSource={chartList}
