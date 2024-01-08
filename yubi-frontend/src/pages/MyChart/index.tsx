@@ -1,5 +1,5 @@
 import { listMyChartByPageUsingPOST } from '@/services/yubi/chartController';
-import { Avatar, Card, List, message } from 'antd';
+import { Avatar, Card, Input, List, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { useModel } from '@@/exports';
@@ -21,6 +21,7 @@ const MyChartPage: React.FC = () => {
   const [chartList, setChartList] = useState<API.Chart[]>(); // 图表列表
   const [total, setTotal] = useState<number>(0); // 分页总数
   const [loading, setLoading] = useState<boolean>(true); // 加载状态
+  const { Search } = Input;
 
   const loadData = async () => {
     setLoading(true);
@@ -52,6 +53,18 @@ const MyChartPage: React.FC = () => {
 
   return (
     <div className="my-chart-page">
+      <div>
+        <Search
+          placeholder="请输入图表名称"
+          enterButton
+          onSearch={(value) => {
+            setSearchParams({
+              ...initSearchParams,
+              name: value,
+            });
+          }}
+        />
+      </div>
       <List
         grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
         pagination={{
