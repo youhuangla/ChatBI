@@ -12,7 +12,7 @@ import ReactECharts from 'echarts-for-react';
 const MyChartPage: React.FC = () => {
   const initSearchParams = {
     current: 1,
-    pageSize: 2,
+    pageSize: 4,
   };
 
   const [searchParams, setSearchParams] = useState<API.ChartQueryRequest>({ ...initSearchParams }); // 查询参数
@@ -56,7 +56,9 @@ const MyChartPage: React.FC = () => {
       <div>
         <Search
           placeholder="请输入图表名称"
+          loading={loading}
           enterButton
+          // 设置搜索条件
           onSearch={(value) => {
             setSearchParams({
               ...initSearchParams,
